@@ -1,0 +1,30 @@
+name: "Deploy"
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        type: string
+        required: true
+
+  workflow_dispatch:
+    inputs:
+      version:
+        type: string
+        required: true
+        description: "Version of the app to deploy"
+
+jobs:
+  deploy-helm-chart:
+    uses: sylvanld/github-workflows/.github/workflows/helm-deploy.yml@v1
+    with:
+      helm_release_name: cookbook-api
+      helm_chart_values: |
+        ingressRouteHostname: "cookbook.sylvan.ovh"
+        image:
+          repository: "sylvanld/cookbook-api"
+          tag: "${{ inputs.version }}"
+      k8s_namespace: "sylvan-ovh"
+      helm_version: "v3.9.2"
+    secrets:
+      k8s_config: ${{ secrets.KUBERNETES_CONFIG }}
