@@ -1,0 +1,4 @@
+-r lock.txt
+
+-e ../../libraries/pydantic-extensions
+-e ../../libraries/fastapi-database
