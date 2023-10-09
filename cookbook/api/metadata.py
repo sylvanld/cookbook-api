@@ -1,6 +1,6 @@
 API_TITLE = "Cookbook API"
 API_DESCRIPTION = "API that expose features to create and share recipes."
-API_VERSION = "X.Y.Z"
+API_VERSION = "0.0.2"
 API_TAGS = [
     {"name": "api", "description": "Endpoints to get info about current api instance."},
     {"name": "ingredients", "description": "Endpoints to create and manage recipes."},
