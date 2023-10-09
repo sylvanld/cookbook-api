@@ -2,7 +2,7 @@
 
 case $1 in
     start)
-        uvicorn --host 0.0.0.0 --port 8000 --reload cookbook.__main__:api
+        uvicorn --host 0.0.0.0 --port 8000 cookbook.__main__:api
         ;;
     healthcheck)
         http_status=$(wget --quiet --spider --server-response http://localhost:8000/healthcheck 2>&1 \
