@@ -11,3 +11,5 @@ class IngredientEntity(Entity):
     name = Column(String(30), unique=True, nullable=False)
     unit = Column(String(30), nullable=True)
     shelve = Column(String(30), nullable=False)
+
+    thumbnail_url = Column(String(150), nullable=True)

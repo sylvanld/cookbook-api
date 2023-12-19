@@ -1,4 +1,5 @@
 from typing import List
+
 from fastapi import APIRouter, Query
 
 from cookbook.domain.ingredients.dtos import IngredientReadDTO, IngredientWriteDTO
@@ -6,6 +7,7 @@ from cookbook.domain.ingredients.repository import IngredientRepository
 
 router = APIRouter()
 ingredient_repository = IngredientRepository()
+
 
 @router.get("/ingredients", response_model=List[IngredientReadDTO])
 async def search_ingredients(name: str = Query(...)):
@@ -15,6 +17,7 @@ async def search_ingredients(name: str = Query(...)):
 @router.post("/ingredients", response_model=IngredientReadDTO)
 async def create_ingredient(ingredient_create_dto: IngredientWriteDTO):
     return ingredient_repository.create(ingredient_create_dto)
+
 
 @router.put("/ingredients/{ingredient_uid}", response_model=IngredientReadDTO)
 async def update_ingredient(ingredient_uid: str, ingredient_update_dto: IngredientWriteDTO):
