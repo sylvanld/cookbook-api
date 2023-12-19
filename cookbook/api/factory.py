@@ -4,6 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 import cookbook.api.healthcheck
 import cookbook.api.v1.groups
 import cookbook.api.v1.ingredients
+import cookbook.api.v1.lists
 import cookbook.api.v1.recipes
 from cookbook.api.metadata import API_DESCRIPTION, API_TAGS, API_TITLE, API_VERSION
 from cookbook.core.config import Config
@@ -18,6 +19,7 @@ def create_api(config: Config):
     app.include_router(cookbook.api.healthcheck.router)
     app.include_router(cookbook.api.v1.groups.router, tags=["groups"], prefix="/v1")
     app.include_router(cookbook.api.v1.ingredients.router, tags=["ingredients"], prefix="/v1")
+    app.include_router(cookbook.api.v1.lists.router, tags=["lists"], prefix="/v1")
     app.include_router(cookbook.api.v1.recipes.router, tags=["recipes"], prefix="/v1")
 
     return app
