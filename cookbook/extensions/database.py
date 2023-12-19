@@ -4,7 +4,7 @@ from click import Group as CliGroup
 from click import group as cli_group
 from fastapi import FastAPI
 from sqlalchemy import create_engine
-from sqlalchemy.orm import DeclarativeBase, scoped_session, sessionmaker, Session
+from sqlalchemy.orm import DeclarativeBase, Session, scoped_session, sessionmaker
 
 from cookbook.core.extensions import Extension, ExtensionOption
 

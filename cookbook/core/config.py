@@ -23,6 +23,7 @@ def nest_flat_structure(d: Dict[str, Any], out: dict = None):
 
 _type = type
 
+
 class Config:
     def __init__(self):
         self.__cache = {}

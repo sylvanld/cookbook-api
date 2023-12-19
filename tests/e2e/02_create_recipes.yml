@@ -1,0 +1,300 @@
+name: Create recipes
+testcases:
+  - name: searchIngredients
+    steps:
+      - type: http
+        method: GET
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients?name=spaghetti"
+        timeout: 5
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.__len__ ShouldEqual 1
+        vars:
+          spaghettiUid:
+            from: result.bodyjson.bodyjson0.uid
+
+      - type: http
+        method: GET
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients?name=poivre"
+        timeout: 5
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.__len__ ShouldEqual 1
+        vars:
+          poivreUid:
+            from: result.bodyjson.bodyjson0.uid
+
+      - type: http
+        method: GET
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients?name=parmesan"
+        timeout: 5
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.__len__ ShouldEqual 1
+        vars:
+          parmesanUid:
+            from: result.bodyjson.bodyjson0.uid
+
+      - type: http
+        method: GET
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients?name=pancetta"
+        timeout: 5
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.__len__ ShouldEqual 1
+        vars:
+          pancettaUid:
+            from: result.bodyjson.bodyjson0.uid
+
+      - type: http
+        method: GET
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients?name=carottes"
+        timeout: 5
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.__len__ ShouldEqual 1
+        vars:
+          carotteUid:
+            from: result.bodyjson.bodyjson0.uid
+
+      - type: http
+        method: GET
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients?name=filet+de+boeuf"
+        timeout: 5
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.__len__ ShouldEqual 1
+        vars:
+          filetDeBoeufUid:
+            from: result.bodyjson.bodyjson0.uid
+
+      - type: http
+        method: GET
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients?name=nouilles+de+riz"
+        timeout: 5
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.__len__ ShouldEqual 1
+        vars:
+          nouillesDeRizUid:
+            from: result.bodyjson.bodyjson0.uid
+
+      - type: http
+        method: GET
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients?name=oignon"
+        timeout: 5
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.__len__ ShouldEqual 1
+        vars:
+          oignonsUid:
+            from: result.bodyjson.bodyjson0.uid
+
+      - type: http
+        method: GET
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients?name=oeufs"
+        timeout: 5
+        assertions:
+          - result.statuscode ShouldEqual 200
+          - result.bodyjson.__len__ ShouldEqual 1
+        vars:
+          oeufsUid:
+            from: result.bodyjson.bodyjson0.uid
+
+  - name: createRecipe
+    steps:
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/recipes"
+        timeout: 5
+        body: |
+          {
+            "name": "Pad Thai au Boeuf",
+            "diners": 4,
+            "price": 6.18,
+            "duration_minutes": 25,
+            "description": "Délicieux plat Chinois de pâtes sucrées / salées.",
+            "thumbnail_url": "https://www.atelier-sushi-mons.fr/wp-content/uploads/2022/03/Pad-thai-boeuf.jpg",
+            "is_public": true
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+        vars:
+          padThaiUid:
+            from: result.bodyjson.uid
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/recipes/{{ .padThaiUid }}/ingredients"
+        timeout: 5
+        body: |
+          {
+            "ingredient_uid": "{{ .searchIngredients.carotteUid }}",
+            "quantity": 2,
+            "unit": null
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/recipes/{{ .padThaiUid }}/ingredients"
+        timeout: 5
+        body: |
+          {
+            "ingredient_uid": "{{ .searchIngredients.filetDeBoeufUid }}",
+            "quantity": 200,
+            "unit": "g"
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/recipes/{{ .padThaiUid }}/ingredients"
+        timeout: 5
+        body: |
+          {
+            "ingredient_uid": "{{ .searchIngredients.nouillesDeRizUid }}",
+            "quantity": 250,
+            "unit": "g"
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/recipes/{{ .padThaiUid }}/ingredients"
+        timeout: 5
+        body: |
+          {
+            "ingredient_uid": "{{ .searchIngredients.oignonsUid }}",
+            "quantity": 2,
+            "unit": null
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/recipes/{{ .padThaiUid }}/ingredients"
+        timeout: 5
+        body: |
+          {
+            "ingredient_uid": "{{ .searchIngredients.oeufsUid }}",
+            "quantity": 3,
+            "unit": null
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+  - name: createShaghettiAllaCarbonaraRecipe
+    steps:
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/recipes"
+        timeout: 5
+        body: |
+          {
+            "name": "Spaghetti alla Carbonara",
+            "diners": 2,
+            "price": 2.28,
+            "duration_minutes": 10,
+            "description": "Simple, efficace et rapide.",
+            "thumbnail_url": "https://img.cuisine-etudiant.fr/image/recette/800500/3c620a65c8519cb3d44d40ffee75c9540f36575f-recipe.jpg",
+            "is_public": true
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+        vars:
+          spaghettisCarbonaraUid:
+            from: result.bodyjson.uid
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/recipes/{{ .spaghettisCarbonaraUid }}/ingredients"
+        timeout: 5
+        body: |
+          {
+            "ingredient_uid": "{{ .searchIngredients.spaghettiUid }}",
+            "quantity": 200,
+            "unit": "g"
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/recipes/{{ .spaghettisCarbonaraUid }}/ingredients"
+        timeout: 5
+        body: |
+          {
+            "ingredient_uid": "{{ .searchIngredients.poivreUid }}",
+            "quantity": null,
+            "unit": null
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/recipes/{{ .spaghettisCarbonaraUid }}/ingredients"
+        timeout: 5
+        body: |
+          {
+            "ingredient_uid": "{{ .searchIngredients.parmesanUid }}",
+            "quantity": 80,
+            "unit": "g"
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/recipes/{{ .spaghettisCarbonaraUid }}/ingredients"
+        timeout: 5
+        body: |
+          {
+            "ingredient_uid": "{{ .searchIngredients.pancettaUid }}",
+            "quantity": 50,
+            "unit": "g"
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/recipes/{{ .spaghettisCarbonaraUid }}/ingredients"
+        timeout: 5
+        body: |
+          {
+            "ingredient_uid": "{{ .searchIngredients.oeufsUid }}",
+            "quantity": 2,
+            "unit": null
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200

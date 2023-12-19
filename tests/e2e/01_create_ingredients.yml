@@ -1,0 +1,83 @@
+name: Create ingredients
+testcases:
+  - name: Create chicken
+    steps:
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients"
+        timeout: 5
+        body: |
+          {
+            "name": "Carottes",
+            "shelve": "vegetables",
+            "unit": null,
+            "thumbnail_url": "https://www.france-mineraux.fr/wp-content/uploads/2023/07/carotte.jpg"
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients"
+        timeout: 5
+        body: |
+          {
+            "name": "Filet de Boeuf",
+            "shelve": "boucherie",
+            "unit": "grammes",
+            "thumbnail_url": "https://www.natura-boeuf.fr/wp-content/uploads/2020/06/Faux-filet-achat-en-ligne-direct-producteur-scaled.jpg"
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients"
+        timeout: 5
+        body: |
+          {
+            "name": "Nouilles de riz",
+            "shelve": "feculents",
+            "unit": "grammes",
+            "thumbnail_url": "https://img-3.journaldesfemmes.fr/CDOdOlOYuEOl8ItlhctvkrvIPr0=/1500x/smart/dd87c5da249e4581a86d904582cb97da/ccmcms-jdf/37221322.jpg"
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients"
+        timeout: 5
+        body: |
+          {
+            "name": "Oignons",
+            "shelve": "vegetables",
+            "unit": null,
+            "thumbnail_url": "https://www.academiedugout.fr/images/15721/1200-auto/fotolia_55631648_subscription_xl-copy.jpg?poix=50&poiy=50"
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
+
+      - type: http
+        method: POST
+        url: "{{ .COOKBOOK_API_URL }}/v1/ingredients"
+        timeout: 5
+        body: |
+          {
+            "name": "Oeufs",
+            "shelve": "patisserie",
+            "unit": null,
+            "thumbnail_url": "https://www.framboizeinthekitchen.com/wp-content/uploads/2018/04/oeufs.jpg"
+          }
+        headers:
+          Content-Type: application/json
+        assertions:
+          - result.statuscode ShouldEqual 200
