@@ -21,10 +21,6 @@ jobs:
         sed -i 's|X.Y.Z|${{ inputs.version }}|g' cookbook/api/metadata.py
         git add cookbook/api/metadata.py
 
-        git config --global user.email 'action@github.com'
-        git config --global user.name 'Gitub Action'
-        git commit -m 'Release version ${{ inputs.version }}'
-
   docker-release:
     needs: git-release
     uses: sylvanld/github-workflows/.github/workflows/docker-release.yml@main
